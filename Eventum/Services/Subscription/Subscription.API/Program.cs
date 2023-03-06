@@ -4,8 +4,11 @@ using EventBus.Messages.Events;
 using MassTransit;
 using Subscription.API.EventBusConsumers;
 using Subscription.API.Models;
+using Subscription.Application.Persistance;
 using Subscription.Application.Services;
+using Subscription.Infrastructure.Persistence;
 using Subscription.Infrastructure.Services;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,19 +16,28 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<IPdfGeneratorService, PdfGeneratorService>();
+builder.Services.AddScoped<IDocumentRepository, DocumentRepository>();
+builder.Services.AddScoped<IEmailService, EmailService>();
+var assemblies = new[]
+           {
+                Assembly.GetExecutingAssembly(),
+                Assembly.Load("Subscription.Application")
+            };
+builder.Services.AddMediatR(config => config.RegisterServicesFromAssemblies(assemblies));
+
 // MassTransit-RabbitMQ Configuration
 builder.Services.AddMassTransit(config =>
 {
-    config.AddConsumer<PdfGenerationRequestedConsumer>();
+    //config.AddConsumer<PdfGenerationRequestedConsumer>();
+    config.AddConsumers(Assembly.GetExecutingAssembly());
     config.UsingRabbitMq((ctx, cfg) =>
     {
         cfg.Host(builder.Configuration["EventBusSettings:HostAddress"]);
         cfg.ConfigureEndpoints(ctx);
-        //cfg.ReceiveEndpoint(EventBusConstants.PDF_QUEUE, c => {
-        //    c.ConfigureConsumer<PdfGenerationRequestedConsumer>(ctx);
-        //});
+        
     });
 });
 

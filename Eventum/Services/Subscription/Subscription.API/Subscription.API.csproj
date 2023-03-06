@@ -30,8 +30,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="app\" />
-    <Folder Include="app\pdfs\" />
+    <Folder Include="subscription_uploads\" />
   </ItemGroup>
 
 </Project>

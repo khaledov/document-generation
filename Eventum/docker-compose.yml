@@ -1,11 +1,18 @@
 version: '3.4'
 
 services:
+  documentdb:
+    image: mongo
+
   subscription.api:
     image: ${DOCKER_REGISTRY-}subscriptionapi
     build:
       context: .
       dockerfile: Services/Subscription/Subscription.API/Dockerfile
-
+    
   rabbitmq:
     image: rabbitmq:3-management-alpine
+
+volumes:
+  subscription_uploads:
+  mongo_data:  

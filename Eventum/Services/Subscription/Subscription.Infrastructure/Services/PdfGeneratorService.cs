@@ -10,10 +10,22 @@ namespace Subscription.Infrastructure.Services
         {
             await Task.Run(() =>
              {
-                 var Renderer = new ChromePdfRenderer();
-                 var path = Path.Combine(Directory.GetCurrentDirectory(), "pdfs");
-                 Renderer.RenderHtmlAsPdf($"Hello {content.CustomerNumber} - {content.DocumentNumber}...\n{content.DocumentText}")
-                 .SaveAs($"~/{path}/{content.DocumentNumber}.pdf");
+                 try
+                 {
+                     //var Renderer = new ChromePdfRenderer();
+                    
+                     File.WriteAllText($"subscription_uploads/{content.DocumentNumber}.pdf", content.DocumentText);
+                     Thread.Sleep(3000);
+                     //Renderer.RenderHtmlAsPdf($"Hello {content.CustomerNumber} - {content.DocumentNumber}...\n{content.DocumentText}")
+                     //.SaveAs($"subscription_uploads/{content.DocumentNumber}.pdf");
+                 }
+                 catch (Exception ex)
+                 {
+
+                    Console.WriteLine(ex);
+                 }
+
+               
              });
              
         }

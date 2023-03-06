@@ -10,6 +10,9 @@
     <PackageReference Include="Aspose.PDF" Version="23.2.0" />
     <PackageReference Include="IronPdf" Version="2023.2.4" />
     <PackageReference Include="IronPdf.Native.Chrome.Linux" Version="2023.2.12577" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0" />
+    <PackageReference Include="MongoDB.Driver" Version="2.19.0" />
+    <PackageReference Include="MongoDB.Driver.GridFS" Version="2.19.0" />
   </ItemGroup>
 
   <ItemGroup>

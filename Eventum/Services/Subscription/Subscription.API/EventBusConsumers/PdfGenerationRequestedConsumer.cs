@@ -28,8 +28,8 @@ namespace Subscription.API.EventBusConsumers
 
             var content = _mapper.Map<PdfContent>(context.Message);
             await _pdfGeneratorService.GeneratePdf(content);
-            Thread.Sleep(30000);
-            await _publishEndpoint.Publish(new PdfGenerated { DocumentPath = $"~/pdfs/{context.Message.DocumentNumber}.pdf" });
+           
+            await _publishEndpoint.Publish(new PdfGenerated { DocumentName = $"{context.Message.DocumentNumber}.pdf" });
             _logger.LogInformation($"PdfGenerationRequested consumed successfully. Created File Name : {context.Message.DocumentNumber}.pdf");
 
         }

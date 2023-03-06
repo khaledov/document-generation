@@ -2,6 +2,6 @@
 {
     public class PdfGenerated : IntegrationBaseEvent
     {
-        public string? DocumentPath { get; set; }
+        public string? DocumentName { get; set; }
     }
 }
