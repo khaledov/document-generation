@@ -6,4 +6,14 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Aspose.PDF" Version="23.2.0" />
+    <PackageReference Include="IronPdf" Version="2023.2.4" />
+    <PackageReference Include="IronPdf.Native.Chrome.Linux" Version="2023.2.12577" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Subscription.Application\Subscription.Application.csproj" />
+  </ItemGroup>
+
 </Project>

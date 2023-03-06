@@ -1,8 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "oostz8OyyWP6kCGy6EUYLbwdEu27o6HoOs8A9V1BWzIvTUfZBrA5JkCWnANP/5Rld3BO9ON53eexRAhpDouCIw==",
+  "dgSpecHash": "5IfHvf8UkpqfGT5E8qVrvtU/gBzmHJ5xHIszZgBoObbwrTeie8nEKAMCEURCSk/ibnumhsf3TBrvI9nbBc6X6g==",
   "success": true,
   "projectFilePath": "F:\\Repositories\\Seb- Bank\\document-generation\\Eventum\\Services\\Subscription\\Subscription.Application\\Subscription.Application.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\khale\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
+    "C:\\Users\\khale\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512"
+  ],
   "logs": []
 }

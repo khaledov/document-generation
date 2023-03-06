@@ -1,9 +1,34 @@
+using AutoMapper;
+using EventBus.Messages.Common;
+using EventBus.Messages.Events;
+using MassTransit;
+using Subscription.API.EventBusConsumers;
+using Subscription.API.Models;
+using Subscription.Application.Services;
+using Subscription.Infrastructure.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddScoped<IPdfGeneratorService, PdfGeneratorService>();
+// MassTransit-RabbitMQ Configuration
+builder.Services.AddMassTransit(config =>
+{
+    config.AddConsumer<PdfGenerationRequestedConsumer>();
+    config.UsingRabbitMq((ctx, cfg) =>
+    {
+        cfg.Host(builder.Configuration["EventBusSettings:HostAddress"]);
+        cfg.ConfigureEndpoints(ctx);
+        //cfg.ReceiveEndpoint(EventBusConstants.PDF_QUEUE, c => {
+        //    c.ConfigureConsumer<PdfGenerationRequestedConsumer>(ctx);
+        //});
+    });
+});
+
 
 var app = builder.Build();
 
@@ -16,28 +41,12 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-var summaries = new[]
+app.MapPost("v1/document", async (IPublishEndpoint _publishEndpoint, IMapper mapper, SubscriptionRequest model) =>
 {
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
-
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast = Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateTime.Now.AddDays(index),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast");
+    var @event = mapper.Map<PdfGenerationRequested>(model);
+    await _publishEndpoint.Publish<PdfGenerationRequested>(@event);
+    return Results.NoContent();
+});
 
 app.Run();
 
-internal record WeatherForecast(DateTime Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}

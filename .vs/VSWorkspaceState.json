@@ -1,7 +1,10 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\Eventum",
+    "\\Eventum\\Services",
+    "\\Eventum\\Services\\Subscription"
   ],
-  "SelectedNode": "\\F:\\Repositories\\Seb- Bank\\document-generation",
+  "SelectedNode": "\\Eventum",
   "PreviewInSolutionExplorer": false
 }
