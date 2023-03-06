@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using EventBus.Messages.Events;
 using MassTransit;
-using MassTransit.Mediator;
+using MediatR;
 using Subscription.Application.Commands;
 
 namespace Subscription.API.EventBusConsumers
@@ -19,7 +19,7 @@ namespace Subscription.API.EventBusConsumers
         }
         public async Task Consume(ConsumeContext<PdfGenerated> context)
         {
-            var command= _mapper.Map<SaveDocument>(context);
+            var command= _mapper.Map<SaveDocument>(context.Message);
            await _mediator.Send<SaveDocument>(command);
            await _publishEndpoint.Publish(new ClientSuccessfullySubscriped());
         }

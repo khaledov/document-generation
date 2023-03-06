@@ -18,13 +18,14 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-builder.Services.AddScoped<IPdfGeneratorService, PdfGeneratorService>();
-builder.Services.AddScoped<IDocumentRepository, DocumentRepository>();
-builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddTransient<IPdfGeneratorService, PdfGeneratorService>();
+builder.Services.AddTransient<IDocumentRepository, DocumentRepository>();
+builder.Services.AddTransient<IEmailService, EmailService>();
 var assemblies = new[]
            {
                 Assembly.GetExecutingAssembly(),
-                Assembly.Load("Subscription.Application")
+                Assembly.Load("Subscription.Application"),
+                Assembly.Load("Subscription.Infrastructure")
             };
 builder.Services.AddMediatR(config => config.RegisterServicesFromAssemblies(assemblies));
 
